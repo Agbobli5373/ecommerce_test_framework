@@ -208,28 +208,63 @@ Configuration.browserCapabilities.setCapability("goog:loggingPrefs", Map.of("bro
 
 ## 🚀 CI/CD Integration
 
-### GitHub Actions Example
+This project includes a comprehensive GitHub Actions workflow (`.github/workflows/test-and-deploy.yml`) that:
 
-```yaml
-name: E-commerce Tests
-on: [push, pull_request]
+- ✅ Runs tests on every push and pull request
+- ✅ Generates Allure reports automatically
+- ✅ Deploys reports to GitHub Pages
+- ✅ Adds test results to PR comments
+- ✅ Supports parallel test execution
+- ✅ Configures headless browser mode for CI
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          java-version: "23"
-          distribution: "temurin"
-      - run: mvn clean test
-      - run: mvn allure:report
-      - uses: actions/upload-artifact@v3
-        with:
-          name: allure-report
-          path: target/allure-results/
+### Workflow Features
+
+**Triggers:**
+- Push to `main` or `master` branches
+- Pull requests targeting `main` or `master`
+
+**Jobs:**
+1. **Test Execution**: Runs all tests with Maven and generates Allure reports
+2. **Deploy to GitHub Pages**: Publishes Allure reports (only on main/master)
+3. **PR Comments**: Adds test results summary to pull requests
+
+### Accessing Allure Reports
+
+After workflow completion:
+- **GitHub Pages**: Visit `https://<username>.github.io/<repository-name>/` for the latest report
+- **Artifacts**: Download test results and reports from the Actions tab
+- **PR Comments**: View test summary directly in pull request conversations
+
+### Manual Workflow Triggers
+
+You can also trigger the workflow manually from the Actions tab in GitHub.
+
+### Local Testing of Workflow
+
+To test the workflow locally before pushing:
+
+```bash
+# Test the Maven commands used in CI
+mvn clean test -Dbrowser.headless=true
+mvn allure:report
+
+# View the report
+mvn allure:serve
 ```
+
+### Customizing the Workflow
+
+**Environment Variables:**
+- Set `CNAME` secret for custom domain on GitHub Pages
+- Configure additional Maven properties as needed
+
+**Browser Configuration:**
+- Currently configured for Chrome in headless mode
+- Can be extended to support multiple browsers
+
+**Notifications:**
+- Add Slack/Discord webhooks for test result notifications
+- Configure email notifications for workflow failures
 
 ## 📈 Extending the Framework
 
