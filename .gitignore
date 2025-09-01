@@ -36,3 +36,107 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Test Automation Specific ###
+# Allure results and reports (can be regenerated)
+allure-results/
+target/allure-results/
+target/site/allure-maven-plugin/
+
+# Selenide screenshots and downloads
+build/downloads/
+screenshots/
+target/screenshots/
+
+# Test reports
+test-output/
+surefire-reports/
+failsafe-reports/
+
+# Browser drivers (if downloaded automatically)
+drivers/
+chromedriver
+geckodriver
+IEDriverServer.exe
+MicrosoftWebDriver.exe
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Environment specific files
+.env
+.env.local
+.env.*.local
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage reports
+coverage/
+*.exec
+cobertura.ser
+
+# JMeter
+*.jmx.bak
+jmeter.log
+
+# LoadRunner
+*.lrr
+*.lrs
+
+# Application server logs
+server.log
+catalina.out
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Lock files
+*.lock
+.lock
+
+# Cache directories
+.cache/
+
+# Windows specific
+desktop.ini
+$RECYCLE.BIN/
+Thumbs.db
+ehthumbs.db
+
+# Linux specific
+*~
+
+# Compiled class files
+*.class
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs
+hs_err_pid*
+replay_pid*

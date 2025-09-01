@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="SauceDemo Test Suite" verbose="1" parallel="methods" thread-count="3">
+    <test name="Login Tests">
+        <classes>
+            <class name="com.isaac.ecommerce_test_framework.tests.LoginTests"/>
+        </classes>
+    </test>
+
+    <test name="Product Tests">
+        <classes>
+            <class name="com.isaac.ecommerce_test_framework.tests.ProductTests"/>
+        </classes>
+    </test>
+
+    <test name="Cart Tests">
+        <classes>
+            <class name="com.isaac.ecommerce_test_framework.tests.CartTests"/>
+        </classes>
+    </test>
+
+    <test name="Checkout Tests">
+        <classes>
+            <class name="com.isaac.ecommerce_test_framework.tests.CheckoutTests"/>
+        </classes>
+    </test>
+</suite>
