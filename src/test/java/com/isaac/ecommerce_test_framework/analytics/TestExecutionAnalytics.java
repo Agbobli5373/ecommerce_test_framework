@@ -23,6 +23,66 @@ import java.util.stream.Collectors;
  */
 public class TestExecutionAnalytics {
 
+    // Inner classes for data structures
+    public static class TestExecutionRecord {
+        public final String testName;
+        public final int status;
+        public final long startTime;
+        public final long endTime;
+        public final String errorMessage;
+        public final String category;
+        public final String priority;
+
+        public TestExecutionRecord(String testName, int status, long startTime, long endTime,
+                                 String errorMessage, String category, String priority) {
+            this.testName = testName;
+            this.status = status;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.errorMessage = errorMessage;
+            this.category = category;
+            this.priority = priority;
+        }
+    }
+
+    public static class TestMetrics {
+        public final String testName;
+        public int totalExecutions;
+        public int successCount;
+        public int failureCount;
+        public int skipCount;
+        public double successRate;
+        public double averageExecutionTime;
+        public long lastExecutionTime;
+        public TestStability stability;
+        public final List<Long> executionTimes;
+
+        public TestMetrics(String testName) {
+            this.testName = testName;
+            this.executionTimes = new ArrayList<>();
+            this.stability = TestStability.INSUFFICIENT_DATA;
+        }
+    }
+
+    public enum TestStability {
+        INSUFFICIENT_DATA("Insufficient Data"),
+        STABLE("Stable"),
+        MOSTLY_STABLE("Mostly Stable"),
+        UNSTABLE("Unstable"),
+        FLAKY("Flaky");
+
+        private final String displayName;
+
+        TestStability(String displayName) {
+            this.displayName = displayName;
+        }
+
+        @Override
+        public String toString() {
+            return displayName;
+        }
+    }
+
     private static TestExecutionAnalytics instance;
     private final ObjectMapper objectMapper;
     private final Map<String, TestExecutionRecord> executionHistory;
@@ -344,66 +404,5 @@ public class TestExecutionAnalytics {
         executionHistory.clear();
         testMetrics.clear();
         saveHistoricalData();
-    }
-
-    // Inner classes for data structures
-
-    public static class TestExecutionRecord {
-        public final String testName;
-        public final int status;
-        public final long startTime;
-        public final long endTime;
-        public final String errorMessage;
-        public final String category;
-        public final String priority;
-
-        public TestExecutionRecord(String testName, int status, long startTime, long endTime,
-                                 String errorMessage, String category, String priority) {
-            this.testName = testName;
-            this.status = status;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.errorMessage = errorMessage;
-            this.category = category;
-            this.priority = priority;
-        }
-    }
-
-    public static class TestMetrics {
-        public final String testName;
-        public int totalExecutions;
-        public int successCount;
-        public int failureCount;
-        public int skipCount;
-        public double successRate;
-        public double averageExecutionTime;
-        public long lastExecutionTime;
-        public TestStability stability;
-        public final List<Long> executionTimes;
-
-        public TestMetrics(String testName) {
-            this.testName = testName;
-            this.executionTimes = new ArrayList<>();
-            this.stability = TestStability.INSUFFICIENT_DATA;
-        }
-    }
-
-    public enum TestStability {
-        INSUFFICIENT_DATA("Insufficient Data"),
-        STABLE("Stable"),
-        MOSTLY_STABLE("Mostly Stable"),
-        UNSTABLE("Unstable"),
-        FLAKY("Flaky");
-
-        private final String displayName;
-
-        TestStability(String displayName) {
-            this.displayName = displayName;
-        }
-
-        @Override
-        public String toString() {
-            return displayName;
-        }
     }
 }

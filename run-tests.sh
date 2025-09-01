@@ -6,7 +6,8 @@ echo "🚀 Starting SauceDemo Test Framework..."
 
 # Clean and run tests
 echo "📋 Running tests..."
-mvn clean test
+mvn test  allure:report
+
 
 # Generate Allure report
 echo "📊 Generating Allure report..."

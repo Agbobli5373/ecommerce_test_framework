@@ -85,7 +85,12 @@ public class TestUtilities {
 
     // JavaScript Utilities
     public static Object executeJavaScript(String script, Object... args) {
-        return executeJavaScript(script, args);
+        try {
+            return ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript(script, args);
+        } catch (Exception e) {
+            System.err.println("Failed to execute JavaScript: " + e.getMessage());
+            return null;
+        }
     }
 
     public static String getPageTitle() {
@@ -117,19 +122,26 @@ public class TestUtilities {
     @Attachment(value = "{description}", type = "image/png")
     public static byte[] captureScreenshot(String description) {
         try {
+            // Use Selenide's screenshot method which handles path creation properly
             String screenshotPath = screenshot(description);
-            if (screenshotPath != null) {
-                return java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(screenshotPath));
+            if (screenshotPath != null && !screenshotPath.isEmpty()) {
+                // Ensure the path is valid for file operations
+                java.nio.file.Path path = java.nio.file.Paths.get(screenshotPath);
+                if (java.nio.file.Files.exists(path)) {
+                    return java.nio.file.Files.readAllBytes(path);
+                }
             }
         } catch (Exception e) {
-            System.out.println("Failed to capture screenshot: " + e.getMessage());
+            System.err.println("Failed to capture screenshot: " + e.getMessage());
         }
         return new byte[0];
     }
 
     public static void captureScreenshotOnFailure(String testName) {
         if (config.isScreenshotOnFailure()) {
-            captureScreenshot("FAILURE_" + testName);
+            // Sanitize test name to avoid illegal characters in filename
+            String sanitizedTestName = testName.replaceAll("[^a-zA-Z0-9_-]", "_");
+            captureScreenshot("FAILURE_" + sanitizedTestName);
         }
     }
 
@@ -267,28 +279,44 @@ public class TestUtilities {
     }
 
     public static void logPerformanceMetrics(String testName) {
-        long loadTime = getPageLoadTime();
-        Allure.addAttachment("Performance Metrics", "text/plain",
-            "Test: " + testName + "\nPage Load Time: " + loadTime + "ms");
+        try {
+            long loadTime = getPageLoadTime();
+            Allure.addAttachment("Performance Metrics", "text/plain",
+                "Test: " + testName + "\nPage Load Time: " + loadTime + "ms");
 
-        if (loadTime > Integer.parseInt(config.getProperty("performance.slow.test.threshold", "5000"))) {
-            System.out.println("WARNING: Slow test detected - " + testName + " took " + loadTime + "ms");
+            if (loadTime > Integer.parseInt(config.getProperty("performance.slow.test.threshold", "5000"))) {
+                System.out.println("WARNING: Slow test detected - " + testName + " took " + loadTime + "ms");
+            }
+        } catch (Exception e) {
+            System.err.println("Warning: Failed to log performance metrics: " + e.getMessage());
         }
     }
 
     // Logging Utilities
     public static void logInfo(String message) {
         System.out.println("[INFO] " + message);
-        Allure.addAttachment("Log Info", "text/plain", message);
+        try {
+            Allure.addAttachment("Log Info", "text/plain", message);
+        } catch (Exception e) {
+            // Silently handle Allure attachment errors
+        }
     }
 
     public static void logError(String message) {
         System.err.println("[ERROR] " + message);
-        Allure.addAttachment("Log Error", "text/plain", message);
+        try {
+            Allure.addAttachment("Log Error", "text/plain", message);
+        } catch (Exception e) {
+            // Silently handle Allure attachment errors
+        }
     }
 
     public static void logStep(String stepDescription) {
         System.out.println("[STEP] " + stepDescription);
-        Allure.addAttachment("Test Step", "text/plain", stepDescription);
+        try {
+            Allure.addAttachment("Test Step", "text/plain", stepDescription);
+        } catch (Exception e) {
+            // Silently handle Allure attachment errors
+        }
     }
 }

@@ -62,7 +62,7 @@ public class ConfigManager {
     }
 
     public boolean isHeadless() {
-        return Boolean.parseBoolean(properties.getProperty("browser.headless", "false"));
+        return Boolean.parseBoolean(properties.getProperty("browser.headless", "true"));
     }
 
     public int getTimeout() {
