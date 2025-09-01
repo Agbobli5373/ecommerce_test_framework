@@ -1,0 +1,1 @@
+Test setup completed with browser: chrome, headless: true
