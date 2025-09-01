@@ -29,7 +29,7 @@ public class ProductTests extends BaseTest {
         int productCount = productsPage.getProductCount();
         Assert.assertEquals(productCount, 6, "Should display 6 products");
 
-        // Verify first product has name and price
+        // Verify the first product has name and price
         String firstProductName = productsPage.getProductName(0);
         String firstProductPrice = productsPage.getProductPrice(0);
         Assert.assertFalse(firstProductName.isEmpty(), "Product name should not be empty");

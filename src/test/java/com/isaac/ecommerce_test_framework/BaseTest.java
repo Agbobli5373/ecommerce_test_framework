@@ -25,7 +25,7 @@ public class BaseTest {
         Configuration.reopenBrowserOnFail = true;
 
         // Uncomment for headless mode
-        // Configuration.headless = true;
+        Configuration.headless = true;
 
         // Open the application
         open("https://www.saucedemo.com/");

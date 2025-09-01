@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="SauceDemo Test Suite" verbose="1" parallel="methods" thread-count="3">
+<suite name="SauceDemo Test Suite" verbose="1" parallel="methods" thread-count="5">
     <test name="Login Tests">
         <classes>
             <class name="com.isaac.ecommerce_test_framework.tests.LoginTests"/>
